@@ -1,137 +1,203 @@
-# react-native-wheel-picker
-[![npm version](http://img.shields.io/npm/v/react-native-wheel-picker.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker "View this project on npm")
-[![npm version](http://img.shields.io/npm/dm/react-native-wheel-picker.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker "View this project on npm")
+# ReactNativeWheelPicker
+[![npm version](http://img.shields.io/npm/v/react-native-wheel-picker-android.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker-android "View this project on npm")
+[![npm version](http://img.shields.io/npm/dm/react-native-wheel-picker-android.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker-android "View this project on npm")
 
-## Introduction
-Cross platform Picker component based on React-native.
+A simple Wheel Picker for Android based on https://github.com/AigeStudio/WheelPicker
+Also you can use multiple pickers, such as DatePicker or TimePicker
 
-Since picker is originally supported by ios while Android only supports a ugly Spinner component. If you want to have the same user behaviour, you can use this.
+## Installation Android
+1. `npm install react-native-wheel-picker-android --save`
+2. `react-native link react-native-wheel-picker-android`
 
-The android component is based on https://github.com/AigeStudio/WheelPicker which runs super fast and smoothly. It also supports curved effect which make it exactly the same looking and feel as the ios picker.
-![](https://raw.githubusercontent.com/lesliesam/react-native-wheel-picker/master/demo.gif)
-![](https://raw.githubusercontent.com/lesliesam/react-native-wheel-picker/master/demo_android.gif)
+# Usage
 
-## How to use
+```js
 
-Run command
-
-For apps using RN 0.32 or higher, please run
-```
-npm i react-native-wheel-picker --save
-```
-For apps using RN 0.31 or less, please run
-```
-npm install --save --save-exact react-native-wheel-picker@1.0.1
-```
-Add in settings.gradle 
-```
-include ':react-native-wheel-picker'
-project(':react-native-wheel-picker').projectDir = new File(settingsDir, '../node_modules/react-native-wheel-picker/android')
-```
-Add in app/build.gradle
-```
-compile project(':react-native-wheel-picker')
-```
-Modify MainApplication
-```
-    import com.zyu.ReactNativeWheelPickerPackage;
-    ......
-    
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage(), new ReactNativeWheelPickerPackage()
-        );
-    }
-```
-
-## Example code
-```
-import React from 'react'
-
+import {WheelPicker, DatePicker, TimePicker} from 'react-native-wheel-picker-android'
+import React, { Component } from 'react';
 import {
   AppRegistry,
-  Component,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-import Picker from 'react-native-wheel-picker'
-var PickerItem = Picker.Item;
-
-
-
-var AwesomeProject = React.createClass({
-  
-  getInitialState: function() {
-    return {
-      selectedItem : 2,
-      itemList: ['刘备', '张飞', '关羽', '赵云', '黄忠', '马超', '魏延', '诸葛亮']
-    }
-  },
-
-  onPikcerSelect: function(index) {
-    this.setState({
-      selectedItem: index,
-    })
-  },
-
-  onAddItem: function() {
-    var name = '司马懿'
-    if (this.state.itemList.indexOf(name) == -1) {
-      this.state.itemList.push(name)
-    }
-    this.setState({
-      selectedItem: this.state.itemList.indexOf(name),
-    })
-  },
-
-  render: function() {
+class MyPickers extends Component {
+  render() {
+    let now = new Date()
+    let wheelPickerData = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Picker style={{width: 150, height: 180}}
-          selectedValue={this.state.selectedItem}
-          itemStyle={{color:"white", fontSize:26}}
-          onValueChange={(index) => this.onPikcerSelect(index)}>
-            {this.state.itemList.map((value, i) => (
-              <PickerItem label={value} value={i} key={"money"+value}/>
-            ))}
-        </Picker>
-        <Text style={{margin: 20, color: '#ffffff'}}>
-          你最喜欢的是：{this.state.itemList[this.state.selectedItem]}
-        </Text>
-
-        <Text style={{margin: 20, color: '#ffffff'}}
-            onPress={this.onAddItem}>
-          怎么没有司马懿？
-        </Text>
+        <WheelPicker
+           onItemSelected={(event)=>this.onItemSelected(event)}
+           isCurved
+           data={wheelPickerData}
+           style={styles.wheelPicker}/>
+         <DatePicker
+           initDate={now.toISOString()}
+           onDateSelected={(date)=>this.onDateSelected(date)}/>
+         <TimePicker
+           initDate={now.toISOString()}
+           onTimeSelected={(date)=>this.onTimeSelected(date)}/>
       </View>
     );
   }
-});
+
+  onItemSelected(event){
+    // do something
+  }
+
+  onDateSelected(date){
+    // do something
+  }
+
+  onTimeSelected(date){
+    // do something
+  }
+
+
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1962dd',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  wheelPicker: {
+    width:200,
+    height: 150
+  }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+module.exports = MyPickers;
+
 ```
+
+## Wheel Picker
+
+![](./src/wheelPicker.gif)
+
+```js
+
+import { WheelPicker, DatePicker, TimePicker } from 'react-native-wheel-picker-android'
+...
+
+  render() {
+    let arr = [1,2,3];
+    return (
+      <WheelPicker
+          onItemSelected={(event)=>{console.log(event)}}
+          isCurved
+          isCyclic
+          data={arr}
+          style={{width:300, height: 300}}/>
+    );
+  }
+```
+
+## Props
+
+| Prop  | Default  | Type | Description |
+| :------------ |:---------------:| :---------------:| :-----|
+| onItemSelected | null | `func` | Callback when user select item {data: 'itemData', position: 'itemPosition'} |
+| data | default string array | `array` | Data array (string or number type)  |
+| isCurved | false | `bool` | Make Wheel Picker curved |
+| isCyclic | false | `bool` | Make Wheel Picker cyclic |
+| isAtmospheric | false | `bool` | Design Wheel Picker's items  |
+| selectedItemTextColor | grey | `string` | Wheel Picker's selected Item Text Color  |
+| itemSpace | 20 | `number` | Wheel Picker's items spacing |
+| visibleItemCount | 7 | `number` | Wheel Picker's items max visible count  |
+| renderIndicator | false | `bool` | Show Wheel Picker indicator |
+| indicatorColor | transparent | `string` | Indicator color  |
+| isCurtain | false | `bool` | Wheel Picker curtain  |
+| curtainColor | transparent | `string` | Wheel Picker curtain color  |
+| itemTextColor | grey | `string` | Wheel Picker's items color  |
+| itemTextSize | 20 | `number` |  Wheel Picker's items text size  |
+| itemTextFontFamily | null | `string` | Wheel Picker's items text font name  |
+| selectedItemPosition | null | `number` | Select current item position |
+| backgroundColor | transparent | `string` | Wheel Picker background color  |
+
+### data
+
+An array of options. This should be provided with an __array of strings__ or __array of numbers__.
+
+
+### onItemSelected(event)
+
+Callback with event in the form `event = { data: 1, position: 0 }`
+
+
+## Time Picker
+
+![](./src/timePicker.gif)
+
+```js
+
+...
+
+  render() {
+    let minutesArray = ['00', '15', '30', '45'];
+    let now = new Date();
+    return (
+      	<TimePicker
+	       minutes={minutesArray}
+   	     onTimeSelected={(date)=>this.onTimeSelected(date))}
+	       initDate={now.toISOString()}/>
+    );
+  }
+
+  onTimeSelected(date){
+    // do something
+  }
+
+```
+
+## Props
+
+| Prop  | Default  | Type | Description |
+| :------------ |:---------------:| :---------------:| :-----|
+| onTimeSelected | null | `func` | Callback when user select time {date: 'selectedTime'} |
+| initDate | current date | `ISOString` | Initial selected time  |
+| hours | [1, 2, 3, .. 12] | `array` | hours array |
+| minutes | ['00', '05' ,'10', .. '55'] | `array` | minutes array |
+
+
+## Date Picker
+
+![](./src/datePicker.gif)
+
+```js
+
+...
+
+  render() {
+  let now = new Date();
+    return (
+      	<DatePicker
+	    initDate={now.toISOString()}
+	    onDateSelected={(date)=> this.onDateSelected(date)}/>
+    );
+  }
+
+  onDateSelected(date){
+    // do something
+  }
+
+```
+
+## Props
+
+| Prop  | Default  | Type | Description |
+| :------------ |:---------------:| :---------------:| :-----|
+| onDateSelected | null | `func` | Callback when user select date {date: 'selectedDate'} |
+| initDate | current date | `ISOString` | Initial selected date  |
+| days | ['Today', 'Wed Dec 28', ...] | `array` | days array |
+| hours | [1, 2, 3 .. 12] | `array` | hours array |
+| minutes | ['00', '05', '10', .. '55'] | `array` | minutes array |
+| format24 | false | `bool` | if true hours format is 24 hours|
+| startDate | current date | `ISOString` | The Earlest date |
+| daysCount | 365 | `number` | How many days included in Date Picker |
+
+## Questions or suggestions?
+
+Feel free to [open an issue](https://github.com/ElekenAgency/ReactNativeWheelPicker/issues)
