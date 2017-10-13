@@ -1,24 +1,35 @@
 package com.zyu;
 
-/**
- * Created by Eleken. on 13.12.16.
- */
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Shader;
+import android.graphics.Typeface;
+import android.os.SystemClock;
+import android.util.AttributeSet;
+
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.events.Event;
+import com.facebook.react.uimanager.events.EventDispatcher;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.text.ReactFontManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReactWheelCurvedPickerManager extends SimpleViewManager<WheelPicker>  implements WheelPicker.OnItemSelectedListener{
+/**
+ * @author <a href="mailto:lesliesam@hotmail.com"> Sam Yu </a>
+ */
+public class ReactWheelCurvedPickerManager extends SimpleViewManager<WheelPicker> implements WheelPicker.OnItemSelectedListener{
 
     public static final String REACT_CLASS = "WheelPicker";
 
